@@ -1,5 +1,7 @@
 sudo apt update                     # готовимся скачивать питон
 sudo apt install python3.5          # скачиваем питон
+sudo rm /usr/bin/python3                         # удалить питон 3.4.3 из системы
+sudo ln -s /usr/bin/python3.5 /usr/bin/python3   # поставить на его место питон 3.5
 sudo pip3 install django==2.1
 sudo pip3 install gunicorn
 sudo rm /etc/nginx/sites-enabled/default
@@ -8,4 +10,4 @@ sudo /etc/init.d/nginx restart
 sudo /etc/init.d/gunicorn restart
 sudo cd ask
 sudo cd ask
-sudo gunicorn -c /home/box/ask/ask/wsgi.py wsgi:application
+sudo gunicorn -c /home/box/web/ask/ask/wsgi.py wsgi:application
