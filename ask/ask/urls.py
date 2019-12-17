@@ -18,7 +18,7 @@ from django.urls import path
 from qa.views import test
 
 urlpatterns = [
-    path('/',test),
+    path('',test),
     path('admin/', admin.site.urls),
     path('login/',test),
     path('signup/',test),
