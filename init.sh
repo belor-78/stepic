@@ -14,3 +14,6 @@ sudo /etc/init.d/nginx restart
 sudo /etc/init.d/gunicorn restart
 cd /home/box/web/ask
 gunicorn --bind=0.0.0.0:8000 --workers=2 --timeout=15 --log-level=debug ask.wsgi:application
+cd /home/box/web/ask
+python3 manage.py makemigrations
+python3 manage.py migrate

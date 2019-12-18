@@ -8,7 +8,7 @@ class QuestionManager(models.Manager):
         return self.order_by('-rating')
 
 class Question(models.Model):
-    title = models.Charfield(max_length=250)
+    title = models.CharField(max_length=250)
     text = models.TextField()
     added_at = models.DateField(auto_now_add=True)
     rating = models.IntegerField(default=0)
