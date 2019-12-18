@@ -4,7 +4,7 @@ sudo rm /usr/bin/python3                         # удалить питон 3.4
 sudo ln -s /usr/bin/python3.5 /usr/bin/python3   # поставить на его место питон 3.5
 sudo pip3 install django==2.1
 sudo pip3 install gunicorn
-sudo pip3 install mysqlclient
+sudo python3 -m pip install mysqlclient
 sudo /etc/init.d/mysql start
 mysql -uroot -e "create database stepic_web;"
 mysql -uroot -e "grant all privileges on stepic_web.* to 'box'@'localhost' with grant option;"
