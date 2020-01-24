@@ -5,11 +5,6 @@ sock = socket(AF_INET,SOCK_STREAM)
 sock.bind(('0.0.0.0', 2222))
 sock.listen(15)
 
-while True:
-    connection, address = sock.accept()
-    print('connected', address)
-    thread.start_new_thread(handleClient, (connection,))
-    
 def handleClient(connection):
     while True:
         data = connection.recv(1024)
@@ -22,3 +17,9 @@ def handleClient(connection):
             break
         connection.send(data)
     connection.close()
+
+while True:
+    connection, address = sock.accept()
+    print('connected', address)
+    thread.start_new_thread(handleClient, (connection,))
+    
