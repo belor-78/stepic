@@ -9,8 +9,9 @@ while True:
     print('connected', address)
     while True:
         data = connection.recv(1024)
-        if data:
-            print(data)
+        if len(data) > 1024:
+            print('breaking',data)
+            break
         if data.decode() == 'close':
             break
         if not data:
