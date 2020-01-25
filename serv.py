@@ -1,5 +1,5 @@
 from socket import *
-import threading
+import _thread as thread
 
 sock = socket(AF_INET,SOCK_STREAM)
 sock.bind(('0.0.0.0', 2222))
@@ -21,5 +21,5 @@ def handleClient(connection):
 while True:
     connection, address = sock.accept()
     print('connected', address)
-    threading.Thread().start(handleClient, (connection,))
+    thread.start_new_thread(handleClient, (connection,))
     
