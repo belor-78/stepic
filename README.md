@@ -1,2 +1,0 @@
-# stepic
-stepic-learning
