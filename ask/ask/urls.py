@@ -1,7 +1,7 @@
 """ask URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/2.2/topics/http/urls/
+    https://docs.djangoproject.com/en/2.0/topics/http/urls/
 Examples:
 Function views
     1. Add an import:  from my_app import views
@@ -15,15 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from qa.views import test
+from .qa import test, test1
 
 urlpatterns = [
-    path('',test),
     path('admin/', admin.site.urls),
-    path('login/',test),
-    path('signup/',test),
-    path('question/<int:id>',test),
-    path('ask/',test),
-    path('popular/',test),
-    path('new/',test),
+    path('',test1),
+    path('login/',test1),
+    path('signup/',test1),
+    path('questions/<int:pk>',test),
+    path('ask/',test1),
+    path('popular/',test1),
+    path('new/',test1),
 ]
