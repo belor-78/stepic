@@ -17,7 +17,11 @@ virtualenv -p "$PYTHON_PATH" venv 2> /dev/null
 echo $VIRTUAL_ENV
 source venv/bin/activate
 
-pip install gunicorn django==2.1
+pip install gunicorn django==2.0.1
+
+git clone https://github.com/belor-78/stepic.git web
+cd web
+./init.sh
 
 gunicorn --bind 0.0.0.0:8080 hello:test &
 gunicorn --bind 0.0.0.0:8000 ask.wsgi &
