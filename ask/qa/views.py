@@ -1,8 +1,8 @@
 from django.shortcuts import render
 
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 def test(request,*args,**kwargs):
     return HttpResponse('200 OK')
 
 def test1(request):
-    return HttpResponse('HTTP 404')
+    raise Http404
