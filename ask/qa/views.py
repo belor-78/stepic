@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 from django.http import HttpResponse
-def test(request):
+def test(request,*args,**kwargs):
     return HttpResponse('200 OK')
 
 def test1(request):
