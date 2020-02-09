@@ -21,6 +21,7 @@ source venv/bin/activate
 git clone https://github.com/belor-78/stepic.git web
 cd web
 pip install gunicorn django==2.0.1
+sudo python3 -m pip install pymysql
 ./init.sh
 
 #gunicorn --bind 0.0.0.0:8080 hello:application  &
