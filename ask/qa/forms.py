@@ -8,7 +8,7 @@ class AskForm(forms.ModelForm):
 
     '''def clean_text(self):
         text = self.cleaned_data['text']
-        if 'пошел нахуй' not in text:
+        if 'fuck off' not in text:
             return text
         else:
             raise forms.ValidationError
@@ -24,7 +24,9 @@ class AskForm(forms.ModelForm):
         fields = ['title', 'text']
 
 
-class AnswerForm(forms.ModelForm):
-    class Meta:
-        model = Answer
-        fields = ['text']
+class AnswerForm(forms.Form):
+    text = forms.CharField(forms.Textarea)
+    question = forms.CharField()
+
+    def change_question(self):
+

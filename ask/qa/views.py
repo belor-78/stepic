@@ -42,10 +42,11 @@ def to_answer(request, pk):
         if answer.is_valid():
             answer = answer.save(commit=False)
             answer.question = question
+            answer.save()
             return HttpResponseRedirect('/question/%d' % question.pk)
         else:
             context = {'form': answer}
-            return render(request, 'qa/awswer.html', context)
+            return render(request, 'qa/answer.html', context)
     else:
         answer = AnswerForm()
         context = {'form': answer, 'question': question}

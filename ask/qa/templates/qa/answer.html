@@ -8,7 +8,14 @@
 <form method="post">
     {% csrf_token %}
     <div>{{ question.text }}</div>
-    {{ form.as_p }}
+    {% for f in form %}
+    {% if f="question" %}
+    {{ question.text }}
+    {% else %}
+    {{f}}
+    {% endif %}}
+    {% endfor %}
+
     <input type="submit" value="Ответить">
 </form>
 </body>
