@@ -1,19 +1,26 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+class QuestionManager(models.Manager):
+    def new(self):
+        return self.order_by('-id')
+
+    def popular(self):
+        return self.order_by('-rating')
+
 class Question(models.Model):
-    title = models.CharField(max_length=255, verbose_name='заголовок вопроса')
+    objects = QuestionManager()
+    title = models.CharField(max_length=255)
     text = models.TextField()
     added_at =models.DateField(auto_now_add=True)
-    rating = models.IntegerField(verbose_name='рейтинг вопроса',default=0)
-    author = models.ForeignKey(User, on_delete=models.PROTECT)
-    likes = models.ManyToManyField(User, related_name='likes')
+    rating = models.IntegerField(default=0)
+    author = models.ForeignKey(User, on_delete=models.PROTECT,blank=True,null=True)
+    likes = models.ManyToManyField(User, related_name='likes',blank=True,null=True)
 
     def __str__(self):
         return self.title
 
     class Meta:
-        verbose_name = 'вопрос'
         ordering = ['rating']
 
 class Answer(models.Model):
@@ -25,9 +32,4 @@ class Answer(models.Model):
     def __str__(self):
         return self.text
 
-class QuestionManager(models.Manager):
-    def new(self):
-        return self.order_by('-added_at')
 
-    def popular(self):
-        return self.order_by('-rating')

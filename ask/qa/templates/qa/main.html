@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% for p in page %}
+<h2><a href="{% url 'detail' p.pk %}">{{p}}</a></h2>
+{% endfor %}
+<div>
+    {% if page.has_previous %}
+    <a href="?page={{ page.previous_page_number }}">&lt</a>
+    {% endif %}
+    <br>{{page.number}}
+    <br>
+    {% if page.has_next %}
+    <a href="?page={{ page.next_page_number }}">&gt</a>
+    {% endif %}
+
+</div>
+</body>
+</html>
