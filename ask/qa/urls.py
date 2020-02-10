@@ -8,5 +8,5 @@ urlpatterns = [
     path('ask/',test),
     path('popular/',popular_questions, name='popular'),
     path('new/',test),
-    path('main/',new_questions, name='main'),
+    path('',new_questions, name='main'),
 ]

@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
-from .models import Question
+from .models import Question, Answer
 from django.core.paginator import Paginator
 
 def test(request,*args,**kwargs):
@@ -25,6 +25,6 @@ def popular_questions(request):
     return render(request, 'qa/main.html', context=context)
 
 def question_detail(request, pk):
-    #question = Question.objects.get(pk=pk)
     question = get_object_or_404(Question,pk=pk)
-    return render(request,'qa/detail.html',context={'question': question})
+    answers = Answer.objects.filter(question=question)
+    return render(request,'qa/detail.html',context={'question': question, "answers": answers})
