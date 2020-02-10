@@ -6,3 +6,4 @@ sudo ln -s /usr/bin/python3.5 /usr/bin/python3
 sudo python3 -m pip install gunicorn
 sudo python3 -m pip install django==2.0.1
 #sudo python3 -m pip install pymysql
+git clone https://github.com/belor-78/stepic.git web
