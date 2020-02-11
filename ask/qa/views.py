@@ -2,7 +2,15 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Question, Answer
 from django.core.paginator import Paginator
-from .forms import AnswerForm, AskForm
+from .forms import AnswerForm, AskForm, UserForm
+from django.contrib.auth.forms import UserCreationForm
+from django.views.generic.edit import FormView
+
+
+class UserRegister(FormView):
+    form_class = UserCreationForm
+    success_url = '/'
+    template_name = 'qa/register.html'
 
 
 def test(request, *args, **kwargs):
@@ -39,9 +47,9 @@ def detail_page(request, pk):
     question = get_object_or_404(Question, pk=pk)
     if request.method == 'GET':
         form = AnswerForm({'question_id': question.pk})
-    elif request.method == 'POST' : #and request.user.is_authenticated():
+    elif request.method == 'POST' and request.user.is_authenticated():
         form = AnswerForm(request.POST)
-        #form._user = request.user
+        form._user = request.user
         if form.is_valid():
             form.save()
             return redirect('detail', pk=question.pk)
@@ -53,7 +61,7 @@ def detail_page(request, pk):
 
 
 def to_answer(request, pk):
-    question = Question.objects.get(pk=pk)
+    question1 = Question.objects.get(pk=pk)
     if request.method == 'POST':
         answer = AnswerForm(request.POST)
         if answer.is_valid():
@@ -62,17 +70,17 @@ def to_answer(request, pk):
             answer.save()
             return redirect('detail', pk=pk)
         else:
-            context = {'form': answer, 'question': question, 'answers': question.answer_set.all()}
+            context = {'form': answer, 'question': question1, 'answers': question1.answer_set.all()}
             return render(request, 'qa/answer.html', context)
     else:
-        answer = AnswerForm({'question_id': question.pk})
-        context = {'form': answer, 'question': question}
+        answer = AnswerForm({'question': question1.pk})
+        context = {'form': answer, 'question': question1}
         # print(context)
         return render(request, 'qa/answer.html', context)
 
 
 def to_ask(request):
-    if request.method == "POST":
+    if request.method == "POST" and request.user.is_authenticated():
         question = AskForm(request.POST)  # type: AskForm
         if question.is_valid():
             question = question.save()
