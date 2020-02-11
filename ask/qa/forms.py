@@ -1,32 +1,24 @@
 from django import forms
 from .models import Question, Answer
 
-pk = None
-class AskForm(forms.ModelForm):
+
+class AskForm(forms.Form):
     title = forms.CharField(max_length=255)
     text = forms.CharField(widget=forms.Textarea)
 
-    '''def clean_text(self):
-        text = self.cleaned_data['text']
-        if 'fuck off' not in text:
-            return text
-        else:
-            raise forms.ValidationError
-
     def save(self):
-        title = self.cleaned_data['title']
-        text = self.clean_text()
-        print(text)
-        question = Question.objects.create(title=title,text=text)
-        return question'''
-    class Meta:
-        model = Question
-        fields = ['title', 'text']
+        question = Question(**self.cleaned_data)
+        #question.author = self._user
+        question.save()
+        return question
 
 
 class AnswerForm(forms.Form):
-    text = forms.CharField(forms.Textarea)
-    question = forms.CharField()
+    text = forms.CharField(widget=forms.Textarea)
+    question_id = forms.IntegerField(widget=forms.HiddenInput)
 
-    def change_question(self):
-
+    def save(self):
+        answer = Answer(**self.cleaned_data)
+        #answer.author = self._user
+        answer.save()
+        return answer

@@ -22,6 +22,9 @@ class Question(models.Model):
     def __str__(self):
         return self.title
 
+    def get_absolute_url(self):
+        return '/question/'+str(self.pk)
+
     class Meta:
         ordering = ['rating']
 

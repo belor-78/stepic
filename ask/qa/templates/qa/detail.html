@@ -5,10 +5,15 @@
     <title>Title</title>
 </head>
 <body>
-<div>{{ question }}</div><br>
+<div>{{ question.title }}</div><br>
 <div>{{ question.text }}</div>
 <div>{% for ans in answers %}<br>
 {{ ans.text }}
 {% endfor %}</div>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Задать вопрос">
+</form>
 </body>
 </html>

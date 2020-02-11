@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, reverse
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Question, Answer
 from django.core.paginator import Paginator
@@ -35,31 +35,48 @@ def question_detail(request, pk):
     return render(request, 'qa/detail.html', context={'question': question, "answers": answers})
 
 
+def detail_page(request, pk):
+    question = get_object_or_404(Question, pk=pk)
+    if request.method == 'GET':
+        form = AnswerForm({'question_id': question.pk})
+    elif request.method == 'POST' : #and request.user.is_authenticated():
+        form = AnswerForm(request.POST)
+        #form._user = request.user
+        if form.is_valid():
+            form.save()
+            return redirect('detail', pk=question.pk)
+    return render(request, 'qa/detail.html', {
+        'question': question,
+        'answers': question.answer_set.all(),
+        'form': form
+    })
+
+
 def to_answer(request, pk):
     question = Question.objects.get(pk=pk)
     if request.method == 'POST':
         answer = AnswerForm(request.POST)
         if answer.is_valid():
-            answer = answer.save(commit=False)
-            answer.question = question
+            # answer = answer.save(commit=False)
+            # answer.question = question
             answer.save()
-            return HttpResponseRedirect('/question/%d' % question.pk)
+            return redirect('detail', pk=pk)
         else:
-            context = {'form': answer}
+            context = {'form': answer, 'question': question, 'answers': question.answer_set.all()}
             return render(request, 'qa/answer.html', context)
     else:
-        answer = AnswerForm()
+        answer = AnswerForm({'question_id': question.pk})
         context = {'form': answer, 'question': question}
-        print(context)
+        # print(context)
         return render(request, 'qa/answer.html', context)
 
 
 def to_ask(request):
     if request.method == "POST":
-        question = AskForm(request.POST)
+        question = AskForm(request.POST)  # type: AskForm
         if question.is_valid():
             question = question.save()
-            return HttpResponseRedirect('/question/%d' % question.pk)
+            return redirect(question.get_absolute_url())
         else:
             context = {'form': question}
             return render(request, 'qa/ask.html', context)

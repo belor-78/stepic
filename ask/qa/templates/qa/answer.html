@@ -5,17 +5,12 @@
     <title>Title</title>
 </head>
 <body>
+<div>{{ question.text }}</div>
 <form method="post">
     {% csrf_token %}
-    <div>{{ question.text }}</div>
-    {% for f in form %}
-    {% if f="question" %}
-    {{ question.text }}
-    {% else %}
-    {{f}}
-    {% endif %}}
-    {% endfor %}
-
+    {% form.as_p %}
+</form>
+<form method="post">
     <input type="submit" value="Ответить">
 </form>
 </body>
