@@ -86,6 +86,7 @@ def to_answer(request, pk):
     question1 = Question.objects.get(pk=pk)
     if request.method == 'POST':
         answer = AnswerForm(request.POST)
+        answer._user = request.user
         if answer.is_valid():
             # answer = answer.save(commit=False)
             # answer.question = question
@@ -103,7 +104,8 @@ def to_answer(request, pk):
 
 def to_ask(request):
     if request.method == "POST" and request.user.is_authenticated():
-        question = AskForm(request.POST)  # type: AskForm
+        question = AskForm(request.POST) # type: AskForm
+        question._user = request.user
         if question.is_valid():
             question = question.save()
             return redirect(question.get_absolute_url())
