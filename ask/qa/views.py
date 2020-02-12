@@ -2,15 +2,37 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Question, Answer
 from django.core.paginator import Paginator
-from .forms import AnswerForm, AskForm, UserForm
-from django.contrib.auth.forms import UserCreationForm
-from django.views.generic.edit import FormView
+from .forms import AnswerForm, AskForm, MyLoginForm, MyRegisterForm
+from django.contrib.auth.models import User
+from django.views.generic.edit import CreateView
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.views import LoginView
+from django.urls import reverse_lazy
 
 
-class UserRegister(FormView):
-    form_class = UserCreationForm
-    success_url = '/'
+class MyRegisterView(CreateView):
+    model = User
+    form_class = MyRegisterForm
     template_name = 'qa/register.html'
+    success_url = reverse_lazy('main')
+    success_msg = 'Success'
+
+    def form_valid(self, form):
+        form_valid = super().form_valid(form)
+        username = form.cleaned_data['username']
+        password = form.cleaned_data['password']
+        user = authenticate(username=username, password=password)
+        login(self.request, user)
+        return form_valid
+
+
+class MyLoginView(LoginView):
+    template_name = 'qa/login.html'
+    form_class = MyLoginForm
+    success_url = reverse_lazy('main')
+
+    def get_success_url(self):
+        return self.success_url
 
 
 def test(request, *args, **kwargs):

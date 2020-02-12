@@ -1,13 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<form action="" method="post">{% csrf_token %}
+<h2>Страница регистрации</h2>
+<div class="ml-4">
+<form method="post">
+    {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Зарегистрировать">
+    <button type="submit" value="Зарегистрироваться">Зарегистрироваться</button>
 </form>
-</body>
-</html>
+</div>

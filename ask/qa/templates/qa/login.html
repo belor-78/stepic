@@ -1,0 +1,8 @@
+<h2>Вход на сайт</h2>
+<div class="ml-4">
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" value="Вход">Вход</button>
+</form>
+</div>
