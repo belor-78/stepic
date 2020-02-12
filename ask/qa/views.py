@@ -103,16 +103,14 @@ def to_answer(request, pk):
 
 
 def to_ask(request):
-    if request.method == "POST" and request.user.is_authenticated():
-        question = AskForm(request.POST) # type: AskForm
-        question._user = request.user
-        if question.is_valid():
-            question = question.save()
+    if request.method == 'GET':
+        form = AskForm()
+    elif request.method == 'POST' and request.user.is_authenticated():
+        form = AskForm(request.POST)
+        form._user = request.user
+        if form.is_valid():
+            question = form.save()
             return redirect(question.get_absolute_url())
-        else:
-            context = {'form': question}
-            return render(request, 'qa/ask.html', context)
-    else:
-        question = AskForm()
-        context = {'form': question}
-        return render(request, 'qa/ask.html', context)
+    return render(request, 'qa/ask.html', {
+        'form': form
+    })
